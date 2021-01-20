@@ -1,0 +1,23 @@
+sudo: required
+services:
+  - docker
+
+# add builds for any test containers, for this we are only building the react app
+before_install:
+  - docker build -t jeffmacks/react-test -f ./client/Dockerfile.dev ./client
+# if we built other images that we wanted to test above, run the testing scripts below
+script:
+  - docker run -e CI=true jeffmacks/react-test npm test
+# after tests pass, build all for images
+after_success:
+  - docker build -t jeffmacks/multi-client ./client
+  - docker build -t jeffmacks/multi-nginx ./nginx
+  - docker build -t jeffmacks/multi-server ./server
+  - docker build -t jeffmacks/multi-worker ./worker
+  # login to docker cli
+  - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
+  # push all the build images to docker hub
+  - docker push jeffmacks/multi-client
+  - docker push jeffmacks/multi-nginx
+  - docker push jeffmacks/multi-server
+  - docker push jeffmacks/multi-worker
