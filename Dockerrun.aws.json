@@ -5,19 +5,22 @@
       "name": "clientContainer",
       "image": "jeffmacks/multi-client",
       "hostname": "client",
-      "essential": false
+      "essential": false,
+      "memory": 128
     },
     {
       "name": "serverContainer",
       "image": "jeffmacks/multi-server",
       "hostname": "api",
-      "essential": false
+      "essential": false,
+      "memory": 128
     },
     {
       "name": "workerContainer",
       "image": "jeffmacks/multi-client",
       "hostname": "worker",
-      "essential": false
+      "essential": false,
+      "memory": 128
     },
     {
       "name": "nginxContainer",
@@ -29,7 +32,8 @@
           "containerPort": 80
         }
       ],
-      "links": ["clientContainer", "serverContainer"]
+      "links": ["clientContainer", "serverContainer"],
+      "memory": 128
     }
   ]
 }
