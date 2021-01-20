@@ -21,3 +21,15 @@ after_success:
   - docker push jeffmacks/multi-nginx
   - docker push jeffmacks/multi-server
   - docker push jeffmacks/multi-worker
+
+deploy:
+  provider: elasticbeanstalk
+  region: us-east-2
+  app: multi-docker
+  env: MultiDocker-env
+  bucket_name: elasticbeanstalk-us-east-2-631563120259
+  bucket_path: docker-react
+  on:
+    branch: master
+  access_key_id: $AWS_ACCESS_KEY
+  secret_access_key: $AWS_SECRET_KEY
