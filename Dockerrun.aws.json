@@ -2,29 +2,30 @@
   "AWSEBDockerrunVersion": 2,
   "containerDefinitions": [
     {
-      "name": "clientContainer",
+      "name": "client",
       "image": "jeffmacks/multi-client",
       "hostname": "client",
       "essential": false,
       "memory": 128
     },
     {
-      "name": "serverContainer",
+      "name": "server",
       "image": "jeffmacks/multi-server",
       "hostname": "api",
       "essential": false,
       "memory": 128
     },
     {
-      "name": "workerContainer",
-      "image": "jeffmacks/multi-client",
+      "name": "worker",
+      "image": "jeffmacks/multi-worker",
       "hostname": "worker",
       "essential": false,
       "memory": 128
     },
     {
-      "name": "nginxContainer",
+      "name": "nginx",
       "image": "jeffmacks/multi-nginx",
+      "hostname": "nginx",
       "essential": true,
       "portMappings": [
         {
@@ -32,7 +33,7 @@
           "containerPort": 80
         }
       ],
-      "links": ["clientContainer", "serverContainer"],
+      "links": ["client", "server"],
       "memory": 128
     }
   ]

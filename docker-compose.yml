@@ -15,21 +15,18 @@ services:
       dockerfile: Dockerfile.dev
       context: ./nginx
     ports:
-      - '3088:80'
+      - '3050:80'
   api:
     build:
       dockerfile: Dockerfile.dev
       context: ./server
     volumes:
-      # use the node_modules file in the container
       - /app/node_modules
-      # for all other files in /app, use the code in the corresponding file in ./server
       - ./server:/app
     environment:
       - REDIS_HOST=redis
       - REDIS_PORT=6379
       - PGUSER=postgres
-      # host is the service name
       - PGHOST=postgres
       - PGDATABASE=postgres
       - PGPASSWORD=postgres_password
@@ -50,6 +47,5 @@ services:
       - /app/node_modules
       - ./worker:/app
     environment:
-      # host is the service name
       - REDIS_HOST=redis
       - REDIS_PORT=6379
